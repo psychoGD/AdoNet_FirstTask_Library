@@ -23,65 +23,258 @@ namespace AdoNetTask_Library
     /// </summary>
     public partial class MainWindow : Window
     {
+        //SqlConnection conn;
+        //string cs = "";
+        //DataTable table;
+        //SqlDataReader reader;
+        //public MainWindow()
+        //{
+        //    InitializeComponent();
+        //    conn = new SqlConnection();
+        //    cs = ConfigurationManager.ConnectionStrings["MyConnString"].ConnectionString;
+
+
+        //    using (conn = new SqlConnection())
+        //    {
+        //        da = new SqlDataAdapter();
+        //        conn.ConnectionString = cs;
+        //        conn.Open();
+        //        set = new DataSet();
+
+        //        SqlCommand command = new SqlCommand("SELECT * FROM Authors", conn);
+
+        //        //command.Parameters.Add(new SqlParameter
+        //        //{
+        //        //    DbType = DbType.Int32,
+        //        //    ParameterName = "@id",
+        //        //    Value = 1
+        //        //});
+
+        //        da.SelectCommand = command;
+
+        //        da.Fill(set, "firstAuthor");
+        //        myDataGrid1.ItemsSource = set.Tables[0].DefaultView;
+        //    }
+        //}
+
+
+
+        //DataSet set;
+        //SqlDataAdapter da;
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    #region DataTable
+
+        //    //using (var conn=new SqlConnection())
+        //    //{
+        //    //    conn.ConnectionString = cs;
+        //    //    conn.Open();
+
+        //    //    SqlCommand command = new SqlCommand();
+        //    //    command.CommandText = "SELECT * FROM Authors";
+        //    //    command.Connection = conn;
+
+        //    //    table = new DataTable();
+
+        //    //    bool hasColumnAdded = false;
+        //    //    using (reader=command.ExecuteReader())
+        //    //    {
+        //    //        while (reader.Read())
+        //    //        {
+        //    //            if (!hasColumnAdded)
+        //    //            {
+        //    //                for (int i = 0; i < reader.FieldCount; i++)
+        //    //                {
+        //    //                    table.Columns.Add(reader.GetName(i));
+        //    //                }
+        //    //                hasColumnAdded = true;
+        //    //            }
+        //    //            DataRow row=table.NewRow();
+        //    //            for (int i = 0; i < reader.FieldCount; i++)
+        //    //            {
+        //    //                row[i] = reader[i];
+        //    //            }
+        //    //            table.Rows.Add(row);
+        //    //        }
+
+        //    //        myDataGrid1.ItemsSource=table.DefaultView;
+        //    //    }
+
+        //    //}
+
+        //    #endregion
+
+
+
+        //    #region DataSet And SqlDataAdapter
+
+        //    //using (conn=new SqlConnection())
+        //    //{
+        //    //    conn.ConnectionString = cs;
+        //    //    conn.Open();
+        //    //    set = new DataSet();
+
+        //    //    da=new SqlDataAdapter("SELECT * FROM Authors;SELECT * FROM Books",conn);
+
+        //    //    da.Fill(set, "mybook");
+
+        //    //    myDataGrid1.ItemsSource = set.Tables[0].DefaultView;
+        //    //    myDataGrid2.ItemsSource = set.Tables[1].DefaultView;
+
+
+        //    //}
+
+
+        //    using (conn = new SqlConnection())
+        //    {
+        //        da = new SqlDataAdapter();
+        //        conn.ConnectionString = cs;
+        //        conn.Open();
+        //        set = new DataSet();
+
+        //        SqlCommand command = new SqlCommand("SELECT * FROM Authors", conn);
+
+        //        //command.Parameters.Add(new SqlParameter
+        //        //{
+        //        //    DbType = DbType.Int32,
+        //        //    ParameterName = "@id",
+        //        //    Value = 1
+        //        //});
+
+        //        da.SelectCommand = command;
+
+        //        da.Fill(set, "firstAuthor");
+
+        //        //    myDataGrid1.ItemsSource = set.Tables[0].DefaultView;
+
+
+
+
+        //        //da = new SqlDataAdapter();
+        //        //conn.ConnectionString = cs;
+        //        //conn.Open();
+        //        //set = new DataSet();
+
+        //        command = new SqlCommand("UPDATE Authors SET Firstname=@firstName WHERE Id=@id", conn);
+
+        //        command.Parameters.Add(new SqlParameter
+        //        {
+        //            DbType = DbType.Int32,
+        //            ParameterName = "@id",
+        //            Value = 1
+        //        });
+
+        //        command.Parameters.Add(new SqlParameter
+        //        {
+        //            SqlDbType = SqlDbType.NVarChar,
+        //            ParameterName = "@firstName",
+        //            Value = "DDDDD"
+        //        });
+
+        //        da.UpdateCommand = command;
+        //        da.UpdateCommand.ExecuteNonQuery();
+
+        //        da.Update(set, "firstAuthor");
+        //        set.Clear();
+        //        da.Fill(set, "firstAuthor");
+
+        //        // myDataGrid1.ItemsSource = null;
+        //        myDataGrid1.ItemsSource = set.Tables[0].DefaultView;
+
+
+        //    }
+
+
+        //    #endregion
+        //}
+
+
+
+        //---------------------------------------------------------------------------
+
+
+
+
+        SqlConnection conn;
+        DataSet set;
+        SqlDataAdapter da;
         public MainWindow()
         {
             InitializeComponent();
         }
         private void ShowAll()
         {
-            listView.Items.Clear();
-            using (var conn = new SqlConnection())
+            listView.ItemsSource = null;
+            using (conn = new SqlConnection())
             {
                 conn.ConnectionString = App.ConnectionString;
-                SqlDataReader reader = null;
-
                 conn.Open();
+                set = new DataSet();
 
-                string query = "SELECT * FROM Authors";
-                using (SqlCommand command = new SqlCommand(query, conn))
-                {
-                    reader = command.ExecuteReader();
+                da = new SqlDataAdapter("SELECT * FROM Authors", conn);
 
-                    while (reader.Read())
-                    {
-                        listView.Items.Add($"{reader[0]} - {reader[1]} - {reader[2]}");
-                    }
-                }
+                da.Fill(set, "mybook");
+
+                listView.ItemsSource = set.Tables[0].DefaultView;
+                //myDataGrid2.ItemsSource = set.Tables[1].DefaultView;
+
+
             }
         }
         private void InsertBtn_Click(object sender, RoutedEventArgs e)
         {
-            
-            using(var conn = new SqlConnection())
+            if (FirstnameTB.Text != String.Empty && LastnameTB.Text != String.Empty && IdTB.Text != String.Empty
+                && FirstnameTB.Text != "Firstname" && LastnameTB.Text != "Lastname" && IdTB.Text != "Id")
             {
-                conn.ConnectionString = ConfigurationManager.ConnectionStrings["MyConnString"].ConnectionString;
-                conn.Open();
-                string query = @"INSERT INTO Authors(Id,Firstname,Lastname)
-                VALUES(@id,@firstname,@lastname)";
-                using(SqlCommand cmd = new SqlCommand(query, conn))
+                using (conn = new SqlConnection())
                 {
-                    var idParam = new SqlParameter();
-                    idParam.ParameterName = "@id";
-                    idParam.SqlDbType = SqlDbType.Int;
-                    idParam.Value = int.Parse(IdTB.Text);
+                    da = new SqlDataAdapter();
+                    conn.ConnectionString = App.ConnectionString;
+                    conn.Open();
+                    set = new DataSet();
 
-                    var FirstnameParam = new SqlParameter();
-                    FirstnameParam.ParameterName = "@firstname";
-                    FirstnameParam.Value = FirstnameTB.Text;
-                    FirstnameParam.SqlDbType = SqlDbType.NVarChar;
+                    SqlCommand command = new SqlCommand("SELECT * FROM Authors", conn);
+                    da.SelectCommand = command;
+                    da.Fill(set, "firstAuthor");
 
-                    var LastnameParam = new SqlParameter();
-                    LastnameParam.ParameterName = "@lastname";
-                    LastnameParam.Value = LastnameTB.Text;
-                    LastnameParam.SqlDbType = SqlDbType.NVarChar;
+                    command = new SqlCommand("INSERT INTO Authors(Id,Firstname,Lastname) VALUES(@id,@firstname,@lastname)", conn);
 
-                    cmd.Parameters.Add(idParam);
-                    cmd.Parameters.Add(FirstnameParam);
-                    cmd.Parameters.Add(LastnameParam);
+                    command.Parameters.Add(new SqlParameter
+                    {
+                        DbType = DbType.Int32,
+                        ParameterName = "@id",
+                        Value = int.Parse(IdTB.Text)
+                    });
 
-                    var result = cmd.ExecuteNonQuery();
-                    ShowAll();
+                    command.Parameters.Add(new SqlParameter
+                    {
+                        SqlDbType = SqlDbType.NVarChar,
+                        ParameterName = "@firstName",
+                        Value = FirstnameTB.Text
+                    });
+
+                    command.Parameters.Add(new SqlParameter
+                    {
+                        SqlDbType = SqlDbType.NVarChar,
+                        ParameterName = "@lastname",
+                        Value = LastnameTB.Text
+                    });
+                    da.InsertCommand = command;
+                    da.InsertCommand.ExecuteNonQuery();
+
+                    da.Update(set, "firstAuthor");
+                    set.Clear();
+                    da.Fill(set, "firstAuthor");
+
+                    // myDataGrid1.ItemsSource = null;
+                    listView.ItemsSource = set.Tables[0].DefaultView;
+
+
                 }
+            }
+            else
+            {
+                MessageBox.Show("Cannot Add Empty Data");
             }
         }
 
@@ -92,7 +285,7 @@ namespace AdoNetTask_Library
 
         private void ClearBtn_Click(object sender, RoutedEventArgs e)
         {
-            listView.Items.Clear();
+            listView.ItemsSource = null;
         }
     }
 }

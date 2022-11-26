@@ -19,8 +19,8 @@
             <Button x:Name="ShowAllBtn" Height="50" Width="100" Content="Show All" FontSize="16" Margin="10" Click="ShowAllBtn_Click"></Button>
             <Button x:Name="ClearBtn" Height="50" Width="100" Content="Clear" FontSize="16" Margin="10" Click="ClearBtn_Click"></Button>
         </StackPanel>
-        <ListView Grid.Row="1" Name="listView">
+        <DataGrid Grid.Row="1" Name="listView">
             
-        </ListView>
+        </DataGrid>
     </Grid>
 </Window>
