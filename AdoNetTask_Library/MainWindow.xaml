@@ -1,0 +1,26 @@
+﻿<Window x:Class="AdoNetTask_Library.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdoNetTask_Library"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBox x:Name="IdTB" Width="100" Height="50" Margin="10" Text="Id" VerticalContentAlignment="Center" FontSize="16" Foreground="Gray"></TextBox>
+            <TextBox x:Name="FirstnameTB" Width="100" Height="50" Margin="10" Text="Firstname" VerticalContentAlignment="Center" FontSize="16" Foreground="Gray"></TextBox>
+            <TextBox x:Name="LastnameTB" Width="100" Height="50" Margin="10" Text="Surname" VerticalContentAlignment="Center" FontSize="16" Foreground="Gray"></TextBox>
+            <Button x:Name="InsertBtn" Height="50" Width="100" Content="Insert" FontSize="16" Margin="10" Click="InsertBtn_Click"></Button>
+            <Button x:Name="ShowAllBtn" Height="50" Width="100" Content="Show All" FontSize="16" Margin="10" Click="ShowAllBtn_Click"></Button>
+            <Button x:Name="ClearBtn" Height="50" Width="100" Content="Clear" FontSize="16" Margin="10" Click="ClearBtn_Click"></Button>
+        </StackPanel>
+        <ListView Grid.Row="1" Name="listView">
+            
+        </ListView>
+    </Grid>
+</Window>
